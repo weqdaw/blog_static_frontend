@@ -1,0 +1,19 @@
+/* 这个样式给多个详情页使用 */
+
+.containner-right .title{
+    text-align: center;
+    padding: 30px;
+
+}
+
+.containner-right .date{
+    color: rgb(15,189,114);
+    text-align:  center;
+    padding:10px;
+
+}
+
+.containner-right .content p{
+    text-indent: 2em;
+    padding :10px;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/img/b1.png');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #messageInput {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+        #submitButton {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #submitButton:hover {
+            background-color: #0056b3;
+        }
+        #messages {
+            margin-top: 20px;
+        }
+        .message {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>留言板</h1>
+    <textarea id="messageInput" rows="4" placeholder="在这里输入您的留言..."></textarea>
+    <button id="submitButton">提交留言</button>
+    <div id="messages"></div>
+</div>
+
+<script>
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const message = document.getElementById('messageInput').value;
+        if (message.trim() === '') {
+            alert('留言不能为空');
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'submit.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                loadMessages();
+                document.getElementById('messageInput').value = '';
+            }
+        };
+        xhr.send('message=' + encodeURIComponent(message));
+    });
+
+    function loadMessages() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'get.php', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const messages = JSON.parse(xhr.responseText);
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.innerHTML = '';
+                messages.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = 'message';
+                    div.textContent = msg;
+                    messagesContainer.appendChild(div);
+                });
+            }
+        };
+        xhr.send();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadMessages();
+    });
+</script>
+</body>
+</html>

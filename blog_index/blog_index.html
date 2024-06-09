@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客主页</title>
+    <link rel="stylesheet" href="commom.css">
+    <link rel="stylesheet" href="blog_detail.css">
+</head>
+<body>
+<!-- 这是一个导航栏 -->
+<div class="nav">
+    <img src="/img/touxiang1.jpeg" alt="">
+    <span class = "title">我的博客</span>
+    <div class="spacer"></div>
+    <a href="/login/a.html">主页</a>
+    <a href="#">写博客</a>
+</div>
+<div class="containner">
+    <div class="containner-left">
+        <div class="card">
+            <img src="/img/touxiang1.jpeg" alt="">
+            <h3>馒头警告</h3>
+            <div class="counter">
+                <span>文章</span>
+                <span>分类</span>
+            </div>
+            <div class="counter">
+                <span>2</span>
+                <span>1</span>
+            </div>
+        </div>
+    </div>
+    <div class="containner-right">
+        <h3 class="title">我的博客</h3>
+        <div class="date">2023-08-20</div>
+        <div class="context"></div>
+    </div>
+</div>
+
+<script>
+    window.onload=function (){
+        var textcontain=document.getElementById("context");
+        fetch('markdown-editor/a.txt')
+            .then(response => response.text())
+            .then(data => {
+                textcontain.textContent = data;
+            })
+    }
+</script>
+</body>
+</html>
